@@ -1,0 +1,11 @@
+{
+  "env": {
+    "DATABASE_URL": "@database_url",
+    "NEXTAUTH_URL": "@nextauth_url",
+    "NEXTAUTH_SECRET": "@nextauth_secret",
+    "OPENAI_API_KEY": "@openai_api_key",
+    "ADMIN_SECRET_KEY": "@admin_secret_key"
+  },
+  "buildCommand": "pnpm build",
+  "installCommand": "pnpm install"
+}
