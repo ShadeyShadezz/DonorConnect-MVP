@@ -1,31 +1,24 @@
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import { prisma } from "@/lib/prisma";
 import LogoutButton from "@/components/LogoutButton";
-import DonorsContent from "./DonorsContent";
+import CampaignsContent from "./CampaignsContent";
 
-export default async function DonorsPage() {
+export default async function CampaignsPage() {
   const session = await getSession();
 
   if (!session) {
     redirect("/auth/login");
   }
 
-  const donors = await prisma.donor.findMany({
-    include: {
-      donations: {
-        select: {
-          amount: true,
-        },
-      },
-    },
+  const user = session.user as any;
+
+  const campaigns = await prisma.campaign.findMany({
     orderBy: {
       createdAt: "desc",
     },
   });
-
-  const user = session.user as any;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -40,9 +33,9 @@ export default async function DonorsPage() {
               </Link>
               <nav className="hidden md:flex items-center space-x-6 text-sm">
                 <Link href="/dashboard" className="text-gray-600 hover:text-gray-900">Dashboard</Link>
-                <Link href="/donors" className="text-indigo-600 font-medium">Donors</Link>
+                <Link href="/donors" className="text-gray-600 hover:text-gray-900">Donors</Link>
                 <Link href="/donations" className="text-gray-600 hover:text-gray-900">Donations</Link>
-                <Link href="/campaigns" className="text-gray-600 hover:text-gray-900">Campaigns</Link>
+                <Link href="/campaigns" className="text-indigo-600 font-medium">Campaigns</Link>
                 <Link href="/tasks" className="text-gray-600 hover:text-gray-900">Tasks</Link>
                 <Link href="/ai-insights" className="text-gray-600 hover:text-gray-900">AI Insights</Link>
               </nav>
@@ -64,7 +57,7 @@ export default async function DonorsPage() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <DonorsContent initialDonors={donors} />
+        <CampaignsContent initialCampaigns={campaigns} />
       </main>
     </div>
   );

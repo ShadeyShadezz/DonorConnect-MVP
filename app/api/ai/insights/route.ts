@@ -82,8 +82,8 @@ Please provide:
 3. Specific recommendations to increase engagement and retention
 4. Suggested next steps for outreach`;
 
-    const message = await openai.messages.create({
-      model: "claude-3-5-sonnet-20241022",
+    const message = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
       max_tokens: 1024,
       messages: [
         {
@@ -93,7 +93,7 @@ Please provide:
       ],
     });
 
-    const insights = message.content[0].type === "text" ? message.content[0].text : "";
+    const insights = message.choices[0].message.content || "";
 
     return NextResponse.json({
       donor: {

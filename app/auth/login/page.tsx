@@ -33,16 +33,25 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            DonorConnect
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Staff Login
-          </p>
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <nav className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <Link href="/" className="text-xl font-bold text-gray-900 hover:text-blue-600">
+            ← DonorConnect
+          </Link>
         </div>
+      </nav>
+
+      <div className="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8">
+          <div>
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+              Sign In
+            </h2>
+            <p className="mt-2 text-center text-sm text-gray-600">
+              Staff Login
+            </p>
+          </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && (
@@ -108,6 +117,7 @@ export default function LoginPage() {
             </p>
           </div>
         </form>
+        </div>
       </div>
     </div>
   );
