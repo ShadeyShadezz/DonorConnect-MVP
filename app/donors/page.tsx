@@ -25,7 +25,7 @@ export default async function DonorsPage() {
     },
   });
 
-  const user = session.user as any;
+  const user = session.user;
 
   return (
     <div className="min-h-screen bg-gray-50">

@@ -102,7 +102,7 @@ export async function DELETE(
       );
     }
 
-    const user = session.user as any;
+    const user = session.user;
 
     if (user.role !== "ADMIN") {
       return NextResponse.json(

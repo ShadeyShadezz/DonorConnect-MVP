@@ -1,9 +1,36 @@
+import "next-auth/jwt";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { Role } from "@prisma/client";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      email: string;
+      name: string;
+      role: string;
+    };
+  }
+  interface User {
+    id: string;
+    email: string;
+    name: string;
+    role: string;
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id: string;
+    role: string;
+    email: string;
+    name: string;
+  }
+}
 
 export const authConfig = {
   providers: [
@@ -45,7 +72,7 @@ export const authConfig = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }: any) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
         token.role = user.role;
@@ -54,10 +81,10 @@ export const authConfig = {
       }
       return token;
     },
-    async session({ session, token }: any) {
+    async session({ session, token }) {
       if (session && session.user) {
-        (session.user as any).id = token.id as string;
-        (session.user as any).role = token.role as string;
+        session.user.id = token.id;
+        session.user.role = token.role;
       }
       return session;
     },
@@ -73,17 +100,17 @@ export const authConfig = {
 };
 
 export async function getSession() {
-  return await getServerSession(authConfig as any);
+  return await getServerSession(authConfig);
 }
 
 export async function requireAuth(requiredRole?: Role) {
-  const session = await getServerSession(authConfig as any);
+  const session = await getServerSession(authConfig);
 
   if (!session) {
     redirect("/auth/login");
   }
 
-  if (requiredRole && (session.user as any).role !== requiredRole) {
+  if (requiredRole && session.user.role !== requiredRole) {
     redirect("/unauthorized");
   }
 
@@ -91,13 +118,13 @@ export async function requireAuth(requiredRole?: Role) {
 }
 
 export async function checkAuth(requiredRole?: Role) {
-  const session = await getServerSession(authConfig as any);
+  const session = await getServerSession(authConfig);
 
   if (!session) {
     return false;
   }
 
-  if (requiredRole && (session.user as any).role !== requiredRole) {
+  if (requiredRole && session.user.role !== requiredRole) {
     return false;
   }
 

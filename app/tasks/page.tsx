@@ -12,7 +12,7 @@ export default async function TasksPage() {
     redirect("/auth/login");
   }
 
-  const user = session.user as any;
+  const user = session.user;
 
   const tasks = await prisma.task.findMany({
     orderBy: {

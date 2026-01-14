@@ -12,7 +12,7 @@ export default async function CampaignsPage() {
     redirect("/auth/login");
   }
 
-  const user = session.user as any;
+  const user = session.user;
 
   const campaigns = await prisma.campaign.findMany({
     orderBy: {

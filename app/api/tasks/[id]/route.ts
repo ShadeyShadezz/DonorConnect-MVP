@@ -91,9 +91,9 @@ export async function DELETE(
       );
     }
 
-    const user = session.user as any;
+    const user = session.user;
 
-    if (!user?.role || user.role !== "ADMIN") {
+    if (user.role !== "ADMIN") {
       return NextResponse.json(
         { error: "Only admins can delete tasks" },
         { status: 403 }

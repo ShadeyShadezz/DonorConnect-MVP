@@ -12,7 +12,7 @@ export default async function DashboardPage() {
     redirect("/auth/login");
   }
 
-  const user = session.user as any;
+  const user = session.user;
 
   const [campaigns, tasks, donations, donors] = await Promise.all([
     prisma.campaign.findMany({ take: 2, orderBy: { createdAt: "desc" } }),
