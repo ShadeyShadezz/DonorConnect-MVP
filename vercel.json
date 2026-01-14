@@ -1,10 +1,10 @@
 {
   "env": {
-    "DATABASE_URL": "@database_url",
-    "NEXTAUTH_URL": "@nextauth_url",
-    "NEXTAUTH_SECRET": "@nextauth_secret",
-    "OPENAI_API_KEY": "@openai_api_key",
-    "ADMIN_SECRET_KEY": "@admin_secret_key"
+    "DATABASE_URL": "@DATABASE_URL",
+    "NEXTAUTH_URL": "@NEXTAUTH_URL",
+    "NEXTAUTH_SECRET": "@NEXTAUTH_SECRET",
+    "OPENAI_API_KEY": "@OPENAI_API_KEY",
+    "ADMIN_SECRET_KEY": "@ADMIN_SECRET_KEY"
   },
   "buildCommand": "pnpm build",
   "installCommand": "pnpm install"
