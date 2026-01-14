@@ -63,14 +63,15 @@ export default function CampaignsContent({
       });
 
       if (!response.ok) {
-        throw new Error("Failed to delete campaign");
+        const data = await response.json();
+        throw new Error(data.error || "Failed to delete campaign");
       }
 
       setCampaigns(campaigns.filter((c) => c.id !== deleteTarget.id));
       setDeleteTarget(null);
     } catch (error) {
       console.error("Error deleting campaign:", error);
-      alert("Failed to delete campaign");
+      alert(error instanceof Error ? error.message : "Failed to delete campaign");
     } finally {
       setIsDeleting(false);
     }

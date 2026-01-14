@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getSession();
@@ -16,8 +16,10 @@ export async function GET(
       );
     }
 
+    const { id } = await params;
+
     const donor = await prisma.donor.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         donations: {
           orderBy: {
@@ -46,7 +48,7 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getSession();
@@ -58,11 +60,12 @@ export async function PUT(
       );
     }
 
+    const { id } = await params;
     const body = await request.json();
     const { name, email, phone, address, city, state, zipCode, notes } = body;
 
     const donor = await prisma.donor.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         name,
         email,
@@ -87,7 +90,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getSession();
@@ -108,8 +111,10 @@ export async function DELETE(
       );
     }
 
+    const { id } = await params;
+
     await prisma.donor.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ message: "Donor deleted successfully" });

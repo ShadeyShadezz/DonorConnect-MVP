@@ -71,14 +71,15 @@ export default function DonationsContent({
       });
 
       if (!response.ok) {
-        throw new Error("Failed to delete donation");
+        const data = await response.json();
+        throw new Error(data.error || "Failed to delete donation");
       }
 
       setDonations(donations.filter((d) => d.id !== deleteTarget.id));
       setDeleteTarget(null);
     } catch (error) {
       console.error("Error deleting donation:", error);
-      alert("Failed to delete donation");
+      alert(error instanceof Error ? error.message : "Failed to delete donation");
     } finally {
       setIsDeleting(false);
     }

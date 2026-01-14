@@ -176,10 +176,21 @@ export default function DashboardContent({
           </p>
           <div className="space-y-4">
             <div>
-              <p className="text-sm font-medium text-gray-900 mb-1">
-                Active Donors
+              <p className="text-sm font-medium text-gray-900 mb-2">
+                Active Donors ({donors.length})
               </p>
-              <p className="text-2xl font-bold text-indigo-600">2 / 2</p>
+              {donors.length === 0 ? (
+                <p className="text-xs text-gray-500">No active donors yet</p>
+              ) : (
+                <div className="space-y-2">
+                  {donors.map((donor) => (
+                    <div key={donor.id} className="flex items-center justify-between bg-indigo-50 rounded px-3 py-2">
+                      <span className="text-sm font-medium text-gray-900">{donor.name}</span>
+                      <span className="text-xs bg-indigo-200 text-indigo-700 px-2 py-0.5 rounded">Active</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

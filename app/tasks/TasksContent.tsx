@@ -67,14 +67,15 @@ export default function TasksContent({ initialTasks }: TasksContentProps) {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to delete task");
+        const data = await response.json();
+        throw new Error(data.error || "Failed to delete task");
       }
 
       setTasks(tasks.filter((t) => t.id !== deleteTarget.id));
       setDeleteTarget(null);
     } catch (error) {
       console.error("Error deleting task:", error);
-      alert("Failed to delete task");
+      alert(error instanceof Error ? error.message : "Failed to delete task");
     } finally {
       setIsDeleting(false);
     }

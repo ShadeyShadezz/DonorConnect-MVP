@@ -63,14 +63,15 @@ export default function DonorsContent({ initialDonors }: DonorsContentProps) {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to delete donor");
+        const data = await response.json();
+        throw new Error(data.error || "Failed to delete donor");
       }
 
       setDonors(donors.filter((d) => d.id !== deleteTarget.id));
       setDeleteTarget(null);
     } catch (error) {
       console.error("Error deleting donor:", error);
-      alert("Failed to delete donor");
+      alert(error instanceof Error ? error.message : "Failed to delete donor");
     } finally {
       setIsDeleting(false);
     }
