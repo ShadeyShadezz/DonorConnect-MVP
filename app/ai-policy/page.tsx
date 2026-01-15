@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getSession } from "@/lib/auth";
 import Link from "next/link";
 
@@ -147,7 +149,7 @@ export default async function AIPolicyPage() {
                   <strong>GDPR Compliance:</strong> We comply with GDPR requirements for data processing, including data subject rights and consent.
                 </p>
                 <p>
-                  <strong>CCPA Compliance:</strong> California residents' privacy rights are fully protected.
+                  <strong>CCPA Compliance:</strong> California residents&apos; privacy rights are fully protected.
                 </p>
                 <p>
                   <strong>FERPA Compliance:</strong> If your organization handles student data, we maintain strict separation and security.

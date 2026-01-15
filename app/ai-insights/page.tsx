@@ -7,12 +7,14 @@ import LogoutButton from "@/components/LogoutButton";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+interface Donor {
+  id: string;
+  name: string;
+  email: string;
+}
+
 interface InsightData {
-  donor: {
-    id: string;
-    name: string;
-    email: string;
-  };
+  donor: Donor;
   donationSummary: {
     totalDonations: number;
     totalAmount: number;
@@ -23,27 +25,20 @@ interface InsightData {
   insights: string;
 }
 
+interface User {
+  id: string;
+  email: string;
+  name: string;
+}
+
 export default function AIInsightsPage() {
-  const [donors, setDonors] = useState<any[]>([]);
+  const [donors, setDonors] = useState<Donor[]>([]);
   const [selectedDonorId, setSelectedDonorId] = useState("");
   const [loading, setLoading] = useState(false);
   const [insightData, setInsightData] = useState<InsightData | null>(null);
   const [error, setError] = useState("");
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
-
-  useEffect(() => {
-    async function initialize() {
-      const session = await getSession();
-      if (!session) {
-        router.push("/auth/login");
-        return;
-      }
-      setUser(session.user);
-      fetchDonors();
-    }
-    initialize();
-  }, [router]);
 
   async function fetchDonors() {
     try {
@@ -52,10 +47,23 @@ export default function AIInsightsPage() {
         const data = await response.json();
         setDonors(data);
       }
-    } catch (err) {
-      console.error("Error fetching donors:", err);
+    } catch {
+      console.error("Error fetching donors");
     }
   }
+
+  useEffect(() => {
+    async function initialize() {
+      const session = await getSession();
+      if (!session) {
+        router.push("/auth/login");
+        return;
+      }
+      setUser(session.user as User);
+      fetchDonors();
+    }
+    initialize();
+  }, [router]);
 
   async function handleGenerateInsights(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -79,7 +87,7 @@ export default function AIInsightsPage() {
       } else {
         setInsightData(data);
       }
-    } catch (err) {
+    } catch {
       setError("An error occurred while generating insights");
     }
 

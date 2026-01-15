@@ -7,9 +7,15 @@ import LogoutButton from "@/components/LogoutButton";
 import { useEffect } from "react";
 import { getSession } from "next-auth/react";
 
+interface User {
+  id: string;
+  email: string;
+  name: string;
+}
+
 export default function NewDonorPage() {
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
@@ -30,7 +36,7 @@ export default function NewDonorPage() {
         router.push("/auth/login");
         return;
       }
-      setUser(session.user);
+      setUser(session.user as User);
     }
     initialize();
   }, [router]);
@@ -56,7 +62,7 @@ export default function NewDonorPage() {
       } else {
         router.push(`/donors/${data.id}`);
       }
-    } catch (err) {
+    } catch {
       setError("An error occurred while creating the donor");
     }
 

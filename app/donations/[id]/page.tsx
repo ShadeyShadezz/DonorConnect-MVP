@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
@@ -7,8 +9,9 @@ import LogoutButton from "@/components/LogoutButton";
 export default async function DonationDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
   const session = await getSession();
 
   if (!session) {
@@ -16,7 +19,7 @@ export default async function DonationDetailPage({
   }
 
   const donation = await prisma.donation.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       donor: true,
     },

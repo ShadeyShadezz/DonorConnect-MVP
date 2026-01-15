@@ -9,7 +9,7 @@ export default function UnauthorizedPage() {
           Unauthorized Access
         </p>
         <p className="mt-2 text-sm text-gray-600">
-          You don't have permission to access this resource.
+          You don&apos;t have permission to access this resource.
         </p>
         <Link
           href="/dashboard"

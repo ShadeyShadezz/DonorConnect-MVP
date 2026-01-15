@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getSession } from "@/lib/auth";
 import Link from "next/link";
 
@@ -119,7 +121,7 @@ export default async function ReflectionPage() {
               <h2 className="text-2xl font-bold text-gray-900 mb-4">💭 Key Learnings</h2>
               <div className="space-y-4 text-gray-600">
                 <div className="border-l-4 border-blue-600 pl-4">
-                  <p><strong>User-Centric Design Matters:</strong> The most important feature is not the most technically impressive - it's the one that saves staff time and directly serves user needs. Simple donor search is more valuable than complex analytics.</p>
+                  <p><strong>User-Centric Design Matters:</strong> The most important feature is not the most technically impressive - it&apos;s the one that saves staff time and directly serves user needs. Simple donor search is more valuable than complex analytics.</p>
                 </div>
                 <div className="border-l-4 border-blue-600 pl-4">
                   <p><strong>AI as Assistant, Not Replacement:</strong> Staff expertise is irreplaceable. AI is most effective when it augments human decision-making with data insights, not when it tries to replace human judgment about donor relationships.</p>
@@ -175,10 +177,10 @@ export default async function ReflectionPage() {
             </div>
 
             <div className="bg-white rounded-lg shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">📚 Resources & References</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">📚 Resources &amp; References</h2>
               <div className="space-y-3 text-gray-600">
                 <p><strong>For Nonprofit Leaders:</strong> The AFP Code of Ethical Principles provides guidance on responsible donor management and ethical fundraising practices.</p>
-                <p><strong>For Technologists:</strong> The Partnership on AI's documentation on responsible AI development informed our approach to bias prevention and transparency.</p>
+                <p><strong>For Technologists:</strong> The Partnership on AI&apos;s documentation on responsible AI development informed our approach to bias prevention and transparency.</p>
                 <p><strong>For Data Privacy:</strong> GDPR, CCPA, and nonprofit-specific privacy regulations guided our data protection architecture.</p>
                 <p><strong>For Product Design:</strong> Jobs to Be Done methodology helped us prioritize features that address real staff needs rather than technical features.</p>
               </div>
@@ -187,7 +189,7 @@ export default async function ReflectionPage() {
             <div className="bg-blue-50 border-l-4 border-blue-400 p-6 rounded">
               <h3 className="text-lg font-bold text-gray-900 mb-2">What Success Looks Like</h3>
               <p className="text-gray-600">
-                Success for DonorConnect isn't measured by user metrics alone - it's measured by mission impact. If DonorConnect helps a food bank serve 20% more families, or enables a youth program to reach more underserved communities, then it's working. That's what matters.
+                Success for DonorConnect isn&apos;t measured by user metrics alone - it&apos;s measured by mission impact. If DonorConnect helps a food bank serve 20% more families, or enables a youth program to reach more underserved communities, then it&apos;s working. That&apos;s what matters.
               </p>
             </div>
           </div>

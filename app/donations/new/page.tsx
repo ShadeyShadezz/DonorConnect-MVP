@@ -9,11 +9,22 @@ import LogoutButton from "@/components/LogoutButton";
 import { useEffect } from "react";
 import { getSession } from "next-auth/react";
 
+interface Donor {
+  id: string;
+  name: string;
+}
+
+interface User {
+  id: string;
+  email: string;
+  name: string;
+}
+
 function DonationFormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [user, setUser] = useState<any>(null);
-  const [donors, setDonors] = useState<any[]>([]);
+  const [user, setUser] = useState<User | null>(null);
+  const [donors, setDonors] = useState<Donor[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
@@ -24,19 +35,6 @@ function DonationFormContent() {
     notes: "",
   });
 
-  useEffect(() => {
-    async function initialize() {
-      const session = await getSession();
-      if (!session) {
-        router.push("/auth/login");
-        return;
-      }
-      setUser(session.user);
-      fetchDonors();
-    }
-    initialize();
-  }, [router]);
-
   async function fetchDonors() {
     try {
       const response = await fetch("/api/donors");
@@ -44,10 +42,23 @@ function DonationFormContent() {
         const data = await response.json();
         setDonors(data);
       }
-    } catch (err) {
-      console.error("Error fetching donors:", err);
+    } catch {
+      console.error("Error fetching donors");
     }
   }
+
+  useEffect(() => {
+    async function initialize() {
+      const session = await getSession();
+      if (!session) {
+        router.push("/auth/login");
+        return;
+      }
+      setUser(session.user as User);
+      fetchDonors();
+    }
+    initialize();
+  }, [router]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -70,7 +81,7 @@ function DonationFormContent() {
       } else {
         router.push("/donations");
       }
-    } catch (err) {
+    } catch {
       setError("An error occurred while creating the donation");
     }
 

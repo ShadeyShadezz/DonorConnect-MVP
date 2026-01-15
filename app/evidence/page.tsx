@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getSession } from "@/lib/auth";
 import Link from "next/link";
 
@@ -182,7 +184,7 @@ export default async function EvidencePage() {
                 <div className="border-l-4 border-blue-600 pl-4">
                   <h3 className="text-lg font-bold text-gray-900 mb-2">Youth Development Program</h3>
                   <p className="text-gray-600 mb-2">
-                    This organization used DonorConnect's AI insights to identify 15 high-value donor prospects and successfully cultivated them, resulting in a $75,000 major gift.
+                    This organization used DonorConnect&apos;s AI insights to identify 15 high-value donor prospects and successfully cultivated them, resulting in a $75,000 major gift.
                   </p>
                   <p className="text-sm text-gray-500">Results achieved: Targeted cultivation strategy, personalized impact reports, and strategic timing of solicitations.</p>
                 </div>
@@ -200,7 +202,7 @@ export default async function EvidencePage() {
             <div className="bg-blue-50 border-l-4 border-blue-400 p-6 rounded">
               <h3 className="text-lg font-bold text-gray-900 mb-2">How to Measure Your Impact</h3>
               <p className="text-gray-600">
-                Track your organization's KPIs monthly. After 6 months, compare baseline metrics to current performance. Most organizations see significant improvements in retention, gift size, and donor lifetime value within the first year of using DonorConnect.
+                Track your organization&apos;s KPIs monthly. After 6 months, compare baseline metrics to current performance. Most organizations see significant improvements in retention, gift size, and donor lifetime value within the first year of using DonorConnect.
               </p>
             </div>
           </div>
