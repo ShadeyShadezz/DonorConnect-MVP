@@ -5,7 +5,15 @@ import { useState, useEffect } from "react";
 interface Task {
   id?: string;
   title: string;
-  description?: string;
+  description: string | null;
+  dueDate: string | Date;
+  status: string;
+}
+
+interface FormTask {
+  id?: string;
+  title: string;
+  description: string;
   dueDate: string;
   status: string;
 }
@@ -23,13 +31,26 @@ export default function TaskModal({
   onClose,
   onSuccess,
 }: TaskModalProps) {
-  const [formData, setFormData] = useState<Task>(
-    task || {
-      title: "",
-      description: "",
-      dueDate: new Date().toISOString().split("T")[0],
-      status: "pending",
-    }
+  const getFormattedDate = (date: string | Date) => {
+    if (typeof date === "string") return date;
+    return new Date(date).toISOString().split("T")[0];
+  };
+
+  const [formData, setFormData] = useState<FormTask>(
+    task
+      ? {
+          id: task.id,
+          title: task.title,
+          description: task.description || "",
+          dueDate: getFormattedDate(task.dueDate),
+          status: task.status,
+        }
+      : {
+          title: "",
+          description: "",
+          dueDate: new Date().toISOString().split("T")[0],
+          status: "pending",
+        }
   );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -37,8 +58,11 @@ export default function TaskModal({
   useEffect(() => {
     if (task) {
       setFormData({
-        ...task,
+        id: task.id,
+        title: task.title,
+        description: task.description || "",
         dueDate: new Date(task.dueDate).toISOString().split("T")[0],
+        status: task.status,
       });
     }
   }, [task]);

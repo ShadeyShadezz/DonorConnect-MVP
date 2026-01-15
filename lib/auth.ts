@@ -5,6 +5,9 @@ import { Role } from "@prisma/client";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import type { JWT } from "next-auth/jwt";
+import type { Session, SessionStrategy } from "next-auth";
+import type { User } from "next-auth";
 
 declare module "next-auth" {
   interface Session {
@@ -72,7 +75,7 @@ export const authConfig = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: JWT; user?: User }) {
       if (user) {
         token.id = user.id;
         token.role = user.role;
@@ -81,7 +84,7 @@ export const authConfig = {
       }
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       if (session && session.user) {
         session.user.id = token.id;
         session.user.role = token.role;
@@ -94,7 +97,7 @@ export const authConfig = {
     error: "/auth/error",
   },
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as SessionStrategy,
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

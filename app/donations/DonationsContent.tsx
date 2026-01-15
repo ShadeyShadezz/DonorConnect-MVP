@@ -8,15 +8,15 @@ import DeleteConfirmationModal from "@/components/DeleteConfirmationModal";
 interface Donor {
   id: string;
   name: string;
-  email?: string;
+  email: string | null;
 }
 
 interface Donation {
   id: string;
   amount: number;
-  date: Date;
+  date: string | Date;
   type: string;
-  notes?: string;
+  notes: string | null;
   donorId: string;
   donor: Donor;
 }

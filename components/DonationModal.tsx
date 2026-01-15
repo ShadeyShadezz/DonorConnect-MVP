@@ -10,9 +10,18 @@ interface Donor {
 interface Donation {
   id?: string;
   amount: number;
+  date: string | Date;
+  type: string;
+  notes: string | null;
+  donorId: string;
+}
+
+interface FormDonation {
+  id?: string;
+  amount: number;
   date: string;
   type: string;
-  notes?: string;
+  notes: string;
   donorId: string;
 }
 
@@ -31,14 +40,25 @@ export default function DonationModal({
   onClose,
   onSuccess,
 }: DonationModalProps) {
-  const [formData, setFormData] = useState<Donation>(
-    donation || {
-      amount: 0,
-      date: new Date().toISOString().split("T")[0],
-      type: "Credit Card",
-      notes: "",
-      donorId: "",
-    }
+  const getFormattedDate = (date: string | Date) => {
+    if (typeof date === "string") return date;
+    return new Date(date).toISOString().split("T")[0];
+  };
+
+  const [formData, setFormData] = useState<FormDonation>(
+    donation
+      ? {
+          ...donation,
+          date: getFormattedDate(donation.date),
+          notes: donation.notes || "",
+        }
+      : {
+          amount: 0,
+          date: new Date().toISOString().split("T")[0],
+          type: "Credit Card",
+          notes: "",
+          donorId: "",
+        }
   );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -48,6 +68,7 @@ export default function DonationModal({
       setFormData({
         ...donation,
         date: new Date(donation.date).toISOString().split("T")[0],
+        notes: donation.notes || "",
       });
     }
   }, [donation]);

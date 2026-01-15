@@ -10,7 +10,7 @@ import TaskModal from "@/components/TaskModal";
 interface Donor {
   id: string;
   name: string;
-  email?: string;
+  email: string | null;
 }
 
 interface Campaign {
@@ -27,6 +27,8 @@ interface Task {
   description: string | null;
   dueDate: Date;
   status: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 interface DashboardContentProps {

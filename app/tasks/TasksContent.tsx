@@ -7,7 +7,7 @@ import DeleteConfirmationModal from "@/components/DeleteConfirmationModal";
 interface Task {
   id: string;
   title: string;
-  description?: string;
+  description: string | null;
   dueDate: Date;
   status: string;
   createdAt: Date;
