@@ -1,16 +1,23 @@
 "use client";
 
-import { signIn } from "next-auth/react";
-import { useState, FormEvent } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { useState, FormEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (status === "authenticated" && session?.user) {
+      router.push("/dashboard");
+    }
+  }, [status, session, router]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -25,11 +32,11 @@ export default function LoginPage() {
 
     if (result?.error) {
       setError(result.error);
+      setLoading(false);
     } else if (result?.ok) {
+      await new Promise(resolve => setTimeout(resolve, 100));
       router.push("/dashboard");
     }
-
-    setLoading(false);
   }
 
   return (
