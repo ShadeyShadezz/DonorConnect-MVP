@@ -1,23 +1,37 @@
-import { withAuth } from "next-auth/middleware";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-export const middleware = withAuth(
-  function middleware(req) {
-    const token = req.nextauth.token;
-    const path = req.nextUrl.pathname;
+export async function middleware(request: NextRequest) {
+  const path = request.nextUrl.pathname;
+  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
 
-    if (path.startsWith("/admin") && token?.role !== "ADMIN") {
-      return NextResponse.redirect(new URL("/unauthorized", req.url));
-    }
+  const protectedPaths = [
+    "/dashboard",
+    "/donors",
+    "/donations",
+    "/campaigns",
+    "/tasks",
+    "/ai-insights",
+    "/admin",
+    "/api/donors",
+    "/api/donations",
+    "/api/campaigns",
+    "/api/tasks",
+    "/api/ai",
+  ];
 
-    return NextResponse.next();
-  },
-  {
-    callbacks: {
-      authorized: ({ token }) => !!token,
-    },
+  const isProtectedPath = protectedPaths.some(p => path.startsWith(p));
+
+  if (isProtectedPath && !token) {
+    return NextResponse.redirect(new URL("/auth/login", request.url));
   }
-);
+
+  if (path.startsWith("/admin") && token?.role !== "ADMIN") {
+    return NextResponse.redirect(new URL("/unauthorized", request.url));
+  }
+
+  return NextResponse.next();
+}
 
 export const config = {
   matcher: [
