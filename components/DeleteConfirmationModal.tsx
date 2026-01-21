@@ -64,7 +64,7 @@ export default function DeleteConfirmationModal({
         >
           <h2 className="text-lg font-bold text-gray-900 mb-2">Confirm Deletion</h2>
           <p className="text-gray-600 mb-6">
-            Are you sure you want to delete <span className="font-semibold">"{itemName}"</span>?
+            Are you sure you want to delete <span className="font-semibold">{`"${itemName}"`}</span>?
           </p>
           <div className="flex gap-3 justify-end">
             <button

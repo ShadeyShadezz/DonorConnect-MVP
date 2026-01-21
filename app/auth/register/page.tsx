@@ -45,6 +45,7 @@ export default function RegisterPage() {
         }, 2000);
       }
     } catch (err) {
+      console.error(err);
       setError("An error occurred during registration");
     }
 
