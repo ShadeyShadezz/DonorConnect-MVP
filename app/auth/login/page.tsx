@@ -14,6 +14,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (status === "loading") return; // Wait for session to load
     if (status === "authenticated" && session?.user) {
       router.push("/dashboard");
     }
