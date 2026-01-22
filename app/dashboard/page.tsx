@@ -14,6 +14,8 @@ export default async function DashboardPage() {
     redirect("/auth/login");
   }
 
+  // Staff site should reroute to itself
+
   const user = session.user;
 
   const [campaigns, tasks, donations, donors] = await Promise.all([
