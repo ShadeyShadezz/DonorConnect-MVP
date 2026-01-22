@@ -4,10 +4,11 @@ import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
-export default async function Home({ searchParams }: { searchParams: { public?: string } }) {
+export default async function Home({ searchParams }: { searchParams: Promise<{ public?: string }> }) {
   const session = await getSession();
+  const params = await searchParams;
 
-  if (session && !searchParams.public) {
+  if (session && !params.public) {
     redirect("/dashboard");
   }
 
