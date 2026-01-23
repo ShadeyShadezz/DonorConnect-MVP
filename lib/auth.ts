@@ -75,14 +75,6 @@ export const authConfig = {
     }),
   ],
   callbacks: {
-    async signIn({ user }: { user: any }) {
-      // If the authenticated user is an admin, tell NextAuth to redirect to /admin
-      if (user && user.role === "ADMIN") {
-        return "/admin";
-      }
-      // Otherwise continue with default behavior
-      return true;
-    },
     async jwt({ token, user }: { token: JWT; user?: User }) {
       if (user) {
         token.id = user.id;

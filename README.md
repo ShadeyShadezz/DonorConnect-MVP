@@ -249,20 +249,6 @@ https://your-domain.vercel.app/auth/login
 
 See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions.
 
-### Vercel Deploy Checklist
-Follow this checklist before finalizing a production deploy to Vercel:
-
-- **Set environment variables** in Vercel for `DATABASE_URL`, `NEXTAUTH_URL`, `NEXTAUTH_SECRET`, `OPENAI_API_KEY`, and `ADMIN_SECRET_KEY`.
-- **Confirm `NEXTAUTH_URL`** matches the Vercel domain exactly (no trailing slash).
-- **Generate a strong `NEXTAUTH_SECRET`** (e.g. `openssl rand -base64 32`).
-- **Verify database connectivity** from Vercel to your Neon/Postgres instance (allowlist IPs or use Neon connection string).
-- **Ensure production build passes locally**: run `pnpm build` and fix any errors before pushing.
-- **Check OAuth provider settings** (if used): callback URLs must include the Vercel domain.
-- **Enable Preview and Production envs** with correct variables for both stages.
-- **Review Vercel logs** immediately after deploy for any runtime errors.
-
-Use this checklist to reduce common deployment issues and confirm authentication redirects work as expected.
-
 ---
 
 ## 🔐 Security Features
