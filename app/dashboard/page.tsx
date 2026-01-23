@@ -40,7 +40,7 @@ export default async function DashboardPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-8">
-              <Link href="/?public=1" className="flex items-center space-x-2 text-xl font-bold">
+              <Link href="/dashboard" className="flex items-center space-x-2 text-xl font-bold">
                 <span className="text-gray-900">donor</span>
                 <span className="text-indigo-600">Connect</span>
                 <span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded font-medium">Staff</span>

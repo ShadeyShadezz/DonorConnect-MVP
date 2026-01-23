@@ -56,7 +56,7 @@ export default function RegisterPage() {
     <div className="min-h-screen flex flex-col bg-gray-50">
       <nav className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <Link href="/" className="text-xl font-bold text-gray-900 hover:text-blue-600">
+          <Link href="/?public=1" className="text-xl font-bold text-gray-900 hover:text-blue-600">
             ← DonorConnect
           </Link>
         </div>
