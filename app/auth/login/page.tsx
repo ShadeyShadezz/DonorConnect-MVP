@@ -34,20 +34,9 @@ export default function LoginPage() {
     if (result?.error) {
       setError(result.error);
       setLoading(false);
-    } else {
-      // Check auth after login
-      try {
-        const response = await fetch("/api/auth/check-role");
-        if (response.ok) {
-          const data = await response.json();
-          console.log("Auth check successful:", data);
-        } else {
-          console.error("Auth check failed");
-        }
-      } catch (error) {
-        console.error("Error checking auth:", error);
-      }
-      // Redirect will happen via useEffect when session updates
+    } else if (result?.ok) {
+      router.push("/dashboard");
+      router.refresh();
     }
   }
 

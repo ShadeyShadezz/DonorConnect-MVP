@@ -43,10 +43,13 @@ export default async function DashboardPage() {
               <Link href="/dashboard" className="flex items-center space-x-2 text-xl font-bold">
                 <span className="text-gray-900">donor</span>
                 <span className="text-indigo-600">Connect</span>
-                <span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded font-medium">Staff</span>
+                <span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded font-medium">{user.role === "ADMIN" ? "Admin" : "Staff"}</span>
               </Link>
               <nav className="hidden md:flex items-center space-x-6 text-sm">
                 <Link href="/dashboard" className="text-indigo-600 font-medium">Dashboard</Link>
+                {user.role === "ADMIN" && (
+                  <Link href="/admin" className="text-gray-600 hover:text-gray-900">Admin Panel</Link>
+                )}
                 <Link href="/donors" className="text-gray-600 hover:text-gray-900">Donors</Link>
                 <Link href="/donations" className="text-gray-600 hover:text-gray-900">Donations</Link>
                 <Link href="/campaigns" className="text-gray-600 hover:text-gray-900">Campaigns</Link>
