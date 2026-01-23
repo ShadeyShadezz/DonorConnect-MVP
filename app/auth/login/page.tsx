@@ -16,8 +16,8 @@ export default function LoginPage() {
   useEffect(() => {
     if (status === "loading") return; // Wait for session to load
     if (status === "authenticated" && session?.user) {
-      // Send all signed-in users to the main staff page anchor
-      router.push("/dashboard#admin");
+      // Send all signed-in users to the dashboard
+      router.push("/dashboard");
     }
   }, [status, session, router]);
 
@@ -36,24 +36,14 @@ export default function LoginPage() {
       setError(result.error);
       setLoading(false);
     } else if (result?.ok) {
-      // Immediately navigate to the main staff page anchor
-      router.push("/dashboard#admin");
+      // Immediately navigate to the dashboard
+      router.push("/dashboard");
       router.refresh();
     }
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-      <nav className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <Link href="/" className="text-xl font-bold text-gray-900 hover:text-blue-600">
-            ← DonorConnect
-          </Link>
-        </div>
-      </nav>
-
-      <div className="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
+    <div className="max-w-md w-full space-y-8">
           <div>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
               Sign In
@@ -127,8 +117,6 @@ export default function LoginPage() {
             </p>
           </div>
         </form>
-        </div>
-      </div>
     </div>
   );
 }

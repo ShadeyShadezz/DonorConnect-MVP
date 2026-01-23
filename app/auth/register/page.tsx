@@ -3,6 +3,7 @@
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { signIn, type SignInResponse } from "next-auth/react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -39,10 +40,21 @@ export default function RegisterPage() {
       if (!response.ok) {
         setError(data.error || "Registration failed");
       } else {
-        setSuccess("Account created successfully! Redirecting to login...");
-        setTimeout(() => {
-          router.push("/auth/login");
-        }, 2000);
+        // Auto sign in after registration
+        const signInResult = (await signIn("credentials", {
+          email,
+          password,
+          redirect: false,
+        })) as SignInResponse | undefined;
+
+        if (signInResult?.error) {
+          setSuccess("Account created. Please sign in manually.");
+          setTimeout(() => {
+            router.push("/auth/login");
+          }, 1200);
+        } else {
+          router.push("/dashboard");
+        }
       }
     } catch (err) {
       console.error(err);
@@ -53,27 +65,13 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-      <nav className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <Link href="/?public=1" className="text-xl font-bold text-gray-900 hover:text-blue-600">
-            ← DonorConnect
-          </Link>
-        </div>
-      </nav>
+    <div className="max-w-md w-full space-y-8">
+      <div>
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Create Account</h2>
+        <p className="mt-2 text-center text-sm text-gray-600">Create Staff Account</p>
+      </div>
 
-      <div className="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
-          <div>
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              Create Account
-            </h2>
-            <p className="mt-2 text-center text-sm text-gray-600">
-              Create Staff Account
-            </p>
-          </div>
-
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+      <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && (
             <div className="rounded-md bg-red-50 p-4">
               <p className="text-sm font-medium text-red-800">{error}</p>
@@ -166,17 +164,13 @@ export default function RegisterPage() {
           <div className="text-center">
             <p className="text-sm text-gray-600">
               Already have an account?{" "}
-              <Link
-                href="/auth/login"
-                className="font-medium text-blue-600 hover:text-blue-500"
-              >
+              <Link href="/auth/login" className="font-medium text-blue-600 hover:text-blue-500">
                 Sign in
               </Link>
             </p>
           </div>
         </form>
-        </div>
-      </div>
     </div>
   );
 }
+
