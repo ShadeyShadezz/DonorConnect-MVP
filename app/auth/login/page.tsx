@@ -16,7 +16,12 @@ export default function LoginPage() {
   useEffect(() => {
     if (status === "loading") return; // Wait for session to load
     if (status === "authenticated" && session?.user) {
-      router.push("/dashboard");
+      // Route admins to the admin panel, others to dashboard
+      if (session.user.role === "ADMIN") {
+        router.push("/admin");
+      } else {
+        router.push("/dashboard");
+      }
     }
   }, [status, session, router]);
 
@@ -35,7 +40,7 @@ export default function LoginPage() {
       setError(result.error);
       setLoading(false);
     } else if (result?.ok) {
-      router.push("/dashboard");
+      // Let the effect above route based on the user's role after session updates
       router.refresh();
     }
   }
