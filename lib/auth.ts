@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { Role } from "@prisma/client";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "./prisma";
 import bcrypt from "bcryptjs";
 import type { JWT } from "next-auth/jwt";
 import type { Session, SessionStrategy } from "next-auth";

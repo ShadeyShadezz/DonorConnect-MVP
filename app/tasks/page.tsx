@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "../../lib/prisma";
 import LogoutButton from "@/components/LogoutButton";
 import TasksContent from "./TasksContent";
 

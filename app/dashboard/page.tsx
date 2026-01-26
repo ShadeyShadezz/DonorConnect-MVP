@@ -1,10 +1,11 @@
 export const dynamic = "force-dynamic";
 
-import { getSession } from "@/lib/auth";
+import { getSession } from "../../lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
-import LogoutButton from "@/components/LogoutButton";
+import { prisma } from "../../lib/prisma";
+import LogoutButton from "../../components/LogoutButton";
+import type { User } from "@prisma/client";
 import DashboardContent from "./DashboardContent";
 
 export default async function DashboardPage() {
@@ -36,10 +37,12 @@ export default async function DashboardPage() {
   const totalDonations = donations.reduce((sum, d) => sum + d.amount, 0);
   const donationCount = donations.length;
 
+  const typedUsers = users as User[];
+
   const stats = {
-    totalUsers: users.length,
-    adminUsers: users.filter((u) => u.role === "ADMIN").length,
-    staffUsers: users.filter((u) => u.role === "STAFF").length,
+    totalUsers: typedUsers.length,
+    adminUsers: typedUsers.filter((u) => u.role === "ADMIN").length,
+    staffUsers: typedUsers.filter((u) => u.role === "STAFF").length,
   };
 
   return (
@@ -115,7 +118,7 @@ export default async function DashboardPage() {
               </div>
 
               <div className="p-4">
-                {users.length === 0 ? (
+                {typedUsers.length === 0 ? (
                   <div className="py-12 text-center text-gray-600">No users found.</div>
                 ) : (
                   <table className="min-w-full divide-y divide-gray-200">
@@ -128,7 +131,7 @@ export default async function DashboardPage() {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {users.map((u) => (
+                      {typedUsers.map((u) => (
                         <tr key={u.id}>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{u.name}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{u.email}</td>
