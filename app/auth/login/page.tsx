@@ -16,8 +16,12 @@ export default function LoginPage() {
   useEffect(() => {
     if (status === "loading") return; // Wait for session to load
     if (status === "authenticated" && session?.user) {
-      // Send all signed-in users to the dashboard
-      router.push("/dashboard");
+      // Role-based redirect: admins -> /admin, staff/others -> /dashboard
+      if ((session.user as any).role === "ADMIN") {
+        router.push("/admin");
+      } else {
+        router.push("/dashboard");
+      }
     }
   }, [status, session, router]);
 
@@ -36,9 +40,8 @@ export default function LoginPage() {
       setError(result.error);
       setLoading(false);
     } else if (result?.ok) {
-      // Immediately navigate to the dashboard
-      router.push("/dashboard");
-      router.refresh();
+      // Let the session update trigger the role-based redirect in useEffect
+      setLoading(false);
     }
   }
 
