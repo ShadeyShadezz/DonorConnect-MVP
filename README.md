@@ -389,6 +389,28 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for more troubleshooting.
 
 ---
 
+## User Feedback Mapping
+
+Required Mapping Table (MANDATORY)
+
+| Feedback ID | User Feedback | Problem Identified | Decision Made | Change Implemented |
+|---|---|---|---|---|
+| FB-01 | How do you define a successful giving experience? — "when i recieve a lot of money; I understand the impact of my donation and it is easy to setup the payment process. Functional and easy to use" | Donors need clearer impact feedback and a simpler payment flow | Improve donation flow and surface impact of donations | Added documentation notes to prioritize donation confirmation, impact summary, and a simplified payment UI (implementation planned) |
+| FB-02 | What was your first thoughts on the UI / UX design — "it looked clean; Comfortable UI style, simplistic, and spacious" | Maintain simplicity while adding functionality | Preserve minimal, spacious UI and avoid clutter | Emphasized simple layout and concise feature set in docs and design notes |
+| FB-03 | What other organizations could use DonorConnect? — "Any non-profit or organization that seeks donors; mines" | Broad target audience; organizations may need migration/onboarding support | Provide migration guides and onboarding resources | Added references to onboarding and migration docs in repository docs folder |
+| FB-04 | Closing Thoughts — "I want to know more about the capabilities and all the actions that are possible; curious about migration from other CRMs" | Lack of detailed feature documentation and migration path | Expand docs and feature list; provide migration guidance | Linked QUICK_START and DEPLOYMENT docs and added roadmap references for planned improvements |
+
+Planned New Functions (proposed — will implement after approval)
+
+- `generateImpactSummary(donation)`: produce a human-readable impact summary and receipt for donors.
+- `createQuickDonation(payload)`: simplified one-click donation creation flow for faster giving.
+- `importFromCRM(source)`: migration/import utility to bring donor data from other CRMs.
+- `startPaymentSetupWizard(userId)`: guided flow for staff to configure payment methods.
+- `groupMetricsForDashboard(metrics)`: helper to group and format metrics into digestible cards.
+- `notifyAdminOnLargeDonation(donation)`: admin alerting for large or notable gifts.
+
+We'll validate these with TypeScript typings, unit tests, and integration tests before implementation.
+
 ## 📝 License
 
 This project is provided as-is for educational and commercial use.

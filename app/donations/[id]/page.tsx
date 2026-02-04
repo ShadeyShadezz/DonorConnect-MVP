@@ -47,6 +47,7 @@ export default async function DonationDetailPage({
                 <Link href="/donations" className="text-gray-900 font-medium">
                   Donations
                 </Link>
+                <Link href="/analytics" className="text-gray-600 hover:text-gray-900">Analytics</Link>
               </div>
             </div>
             <div className="flex items-center space-x-4">

@@ -116,6 +116,7 @@ export default function AIInsightsPage() {
                 <Link href="/campaigns" className="text-gray-600 hover:text-gray-900">Campaigns</Link>
                 <Link href="/tasks" className="text-gray-600 hover:text-gray-900">Tasks</Link>
                 <Link href="/ai-insights" className="text-indigo-600 font-medium">AI Insights</Link>
+                <Link href="/analytics" className="text-gray-600 hover:text-gray-900">Analytics</Link>
               </nav>
             </div>
             <div className="flex items-center space-x-4">

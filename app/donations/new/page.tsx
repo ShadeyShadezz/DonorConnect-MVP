@@ -6,6 +6,7 @@ import { useState, FormEvent, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
+import { createQuickDonation, generateImpactSummary } from "@/lib/donations"
 import { useEffect } from "react";
 import { getSession } from "next-auth/react";
 
@@ -108,6 +109,7 @@ function DonationFormContent() {
                 <Link href="/donations" className="text-gray-900 font-medium">
                   Donations
                 </Link>
+                <Link href="/analytics" className="text-gray-600 hover:text-gray-900">Analytics</Link>
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -119,6 +121,64 @@ function DonationFormContent() {
       </nav>
 
       <div className="max-w-2xl mx-auto py-12 sm:px-6 lg:px-8">
+        {/* Quick Donate: simplified one-click flow with impact preview */}
+        <div className="bg-white overflow-hidden shadow rounded-lg mb-6">
+          <div className="px-4 py-4 sm:px-6 border-b border-gray-200">
+            <h2 className="text-lg font-semibold text-gray-900">Quick Donate</h2>
+            <p className="text-sm text-gray-600">Fast donation with immediate impact preview.</p>
+          </div>
+          <div className="px-4 py-5 sm:p-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+              <input
+                aria-label="Quick amount"
+                className="rounded-md border border-gray-300 px-3 py-2"
+                placeholder="Amount"
+                type="number"
+                value={(formData.amount as unknown as string) || ''}
+                onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+              />
+              <input
+                aria-label="Quick donor name"
+                className="rounded-md border border-gray-300 px-3 py-2"
+                placeholder="Donor name (optional)"
+                value={(formData.donorId as unknown as string) || ''}
+                onChange={(e) => setFormData({ ...formData, donorId: e.target.value })}
+              />
+              <input
+                aria-label="Campaign"
+                className="rounded-md border border-gray-300 px-3 py-2"
+                placeholder="Campaign (optional)"
+                value={formData.type}
+                onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+              />
+            </div>
+            <div className="flex items-start gap-4">
+              <button
+                type="button"
+                onClick={() => {
+                  try {
+                    const amount = Number(formData.amount)
+                    const quick = createQuickDonation({ amount, donorName: formData.donorId || 'Anonymous', campaign: formData.type })
+                    const summary = generateImpactSummary(quick)
+                    // display summary in page state
+                    setImpact(summary.text)
+                  } catch (err) {
+                    setError((err as Error).message)
+                  }
+                }}
+                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-400 active:scale-95 active:translate-y-0.5 transition transform"
+              >
+                Quick Donate
+              </button>
+              <div className="text-sm text-gray-600">Preview will appear below after quick donate.</div>
+            </div>
+            {impact && (
+              <div className="mt-4 rounded-md bg-blue-50 p-4">
+                <p className="text-sm text-blue-900">{impact}</p>
+              </div>
+            )}
+          </div>
+        </div>
         <Link href="/donations" className="text-blue-600 hover:text-blue-900 mb-8 inline-block">
           ← Back to Donations
         </Link>
