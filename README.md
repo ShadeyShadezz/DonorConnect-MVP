@@ -2,7 +2,7 @@
 
 A modern, full-stack Next.js 14 web application for managing donors, tracking donations, and leveraging AI to optimize donor engagement strategies.
 
-**Live Demo:** https://donorconnect.vercel.app  
+**Live Demo:** Leads to the wrong vercel deployment that isnt owned by me, apologies.
 **Tech Stack:** Next.js 14 • React 19 • TypeScript • Prisma • Neon PostgreSQL • NextAuth.js • Claude AI • Tailwind CSS
 
 ---
@@ -410,6 +410,35 @@ Planned New Functions (proposed — will implement after approval)
 - `notifyAdminOnLargeDonation(donation)`: admin alerting for large or notable gifts.
 
 We'll validate these with TypeScript typings, unit tests, and integration tests before implementation.
+
+## 🚢 Orchestration (Docker Compose)
+
+### Architecture
+- Two-container setup: one container runs the Next.js app, the other runs the PostgreSQL database (Neon-compatible local image or postgres).
+- Communication: the app connects to the database over an internal Docker network (service name as hostname, e.g., db). Use DATABASE_URL with the Docker service hostname so the app and DB communicate over the compose network.
+
+### Quick Start
+- Single-command startup:
+  - docker compose up --build
+- Example (assumes .env is present and docker-compose.yml defines app and db services):
+  - docker compose up --build
+- Use docker compose down -v to fully remove containers and volumes for a clean reset.
+
+### Stability Features
+- Healthchecks: add simple HTTP/SQL healthchecks for the app and db in docker-compose so orchestrator can detect unhealthy services.
+- Restart policies: use restart: unless-stopped or restart: on-failure for resilience in local development.
+- These features help automatic recovery and make local dev more stable.
+
+### Environment Management
+- Secrets: store runtime secrets in a .env file (gitignore .env). Provide .env.example with required variables.
+- In Docker Compose, reference environment variables and avoid hardcoding secrets in compose files.
+- Ensure NEXTAUTH_SECRET and DATABASE_URL are set before starting.
+
+### Business Value
+- Reliability: orchestration enforces restart policies and healthchecks so BrightPath (or similar orgs) see fewer downtime surprises during demos and labs.
+- Reproducibility: single-command startup minimizes setup friction for students and teammates, reducing "works on my machine" issues.
+- Maintainability: clearly documented env and seed steps let a fresh clone be brought to a known state faster.
+---
 
 ## 📝 License
 
