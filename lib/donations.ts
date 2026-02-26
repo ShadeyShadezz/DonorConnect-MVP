@@ -2,6 +2,7 @@ export type DonationPayload = {
   amount: number
   currency?: string
   donorName?: string
+  donorId?: string
   campaign?: string
   date?: string // ISO date
   notes?: string
@@ -48,6 +49,7 @@ export function createQuickDonation(payload: DonationPayload): Donation {
     amount: payload.amount,
     currency: payload.currency || 'USD',
     donorName: payload.donorName || 'Anonymous',
+    donorId: payload.donorId,
     campaign: payload.campaign,
     date: payload.date || new Date().toISOString(),
     notes: payload.notes,

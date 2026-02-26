@@ -35,7 +35,7 @@ declare module "next-auth/jwt" {
   }
 }
 
-export const authConfig = {
+export const authConfig: any = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -75,16 +75,16 @@ export const authConfig = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user?: User }) {
+    async jwt({ token, user }: any) {
       if (user) {
-        token.id = user.id;
-        token.role = user.role;
-        token.email = user.email;
-        token.name = user.name;
+        token.id = (user as any).id;
+        token.role = (user as any).role;
+        token.email = (user as any).email;
+        token.name = (user as any).name;
       }
       return token;
     },
-    async session({ session, token }: { session: Session; token: JWT }) {
+    async session({ session, token }: any) {
       if (session && session.user) {
         session.user.id = token.id;
         session.user.role = token.role;
@@ -107,18 +107,18 @@ export const authConfig = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-export async function getSession() {
-  return await getServerSession(authConfig);
+export async function getSession(): Promise<Session | null> {
+  return (await getServerSession(authConfig as any)) as Session | null;
 }
 
 export async function requireAuth(requiredRole?: Role) {
-  const session = await getServerSession(authConfig);
+  const session = (await getServerSession(authConfig as any)) as Session | null;
 
   if (!session) {
     redirect("/auth/login");
   }
 
-  if (requiredRole && session.user.role !== requiredRole) {
+  if (requiredRole && session?.user?.role !== requiredRole) {
     redirect("/unauthorized");
   }
 
@@ -126,13 +126,13 @@ export async function requireAuth(requiredRole?: Role) {
 }
 
 export async function checkAuth(requiredRole?: Role) {
-  const session = await getServerSession(authConfig);
+  const session = (await getServerSession(authConfig as any)) as Session | null;
 
   if (!session) {
     return false;
   }
 
-  if (requiredRole && session.user.role !== requiredRole) {
+  if (requiredRole && session?.user?.role !== requiredRole) {
     return false;
   }
 

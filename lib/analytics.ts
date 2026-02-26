@@ -37,7 +37,7 @@ export function groupMetricsForDashboard(donations: DonationType[]) {
   const byDonor: Record<string, number> = {}
 
   donations.forEach((d) => {
-    const campaign = (d as any).campaign || 'Unspecified'
+    const campaign = d.campaign || 'Unspecified'
     byCampaign[campaign] = (byCampaign[campaign] || 0) + (Number(d.amount) || 0)
     const donor = d.donorName || d.donorId || 'Anonymous'
     byDonor[donor] = (byDonor[donor] || 0) + (Number(d.amount) || 0)
